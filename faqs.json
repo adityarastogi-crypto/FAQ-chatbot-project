@@ -1,0 +1,22 @@
+[
+  {
+    "question": "How do I reset my password?",
+    "answer": "To reset your password, go to Settings → Account → Reset Password and follow the instructions. You'll receive an email with a link."
+  },
+  {
+    "question": "How can I contact support?",
+    "answer": "You can contact support at support@example.com or use the 'Contact Us' form on our website."
+  },
+  {
+    "question": "What is your refund policy?",
+    "answer": "We offer refunds within 14 days of purchase if you are unsatisfied. Please email refunds@example.com with your order number."
+  },
+  {
+    "question": "How do I change my plan?",
+    "answer": "Go to Billing → Change Plan and pick the plan you want. Changes are applied immediately."
+  },
+  {
+    "question": "Does my subscription auto-renew?",
+    "answer": "Yes. Subscriptions auto-renew by default. You can disable auto-renew from Billing settings."
+  }
+]

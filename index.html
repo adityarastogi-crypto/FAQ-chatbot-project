@@ -1,0 +1,73 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8"/>
+  <title>FAQ Chatbot (local)</title>
+  <style>
+    body { font-family: Arial, Helvetica, sans-serif; max-width:700px; margin:40px auto; padding:10px; }
+    .chat { border:1px solid #ddd; padding:10px; height:400px; overflow:auto; display:flex; flex-direction:column; gap:8px; }
+    .user { align-self:flex-end; background:#daf1ff; padding:8px 10px; border-radius:8px; max-width:80%; }
+    .bot { align-self:flex-start; background:#f0f0f0; padding:8px 10px; border-radius:8px; max-width:80%; }
+    input[type="text"]{ width:80%; padding:8px; }
+    button{ padding:8px 12px; }
+    form{ margin-top:12px; display:flex; gap:8px; }
+    .meta { font-size:0.8rem; color:#666; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <h2>FAQ Chatbot (Local)</h2>
+  <div class="chat" id="chat"></div>
+
+  <form id="askForm" onsubmit="return false;">
+    <input id="question" type="text" placeholder="Type your question here..." autocomplete="off"/>
+    <button id="sendBtn" type="submit">Ask</button>
+  </form>
+
+  <script>
+    const chatEl = document.getElementById('chat');
+    const questionEl = document.getElementById('question');
+    const sendBtn = document.getElementById('sendBtn');
+
+    function appendMessage(text, cls) {
+      const d = document.createElement('div');
+      d.className = cls;
+      d.textContent = text;
+      chatEl.appendChild(d);
+      chatEl.scrollTop = chatEl.scrollHeight;
+    }
+
+    async function askQuestion(q) {
+      appendMessage(q, 'user');
+      questionEl.value = '';
+      try {
+        const res = await fetch('/ask', {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json'},
+          body: JSON.stringify({question: q})
+        });
+        const data = await res.json();
+        appendMessage(data.answer + (data.score ? `\n\n(Confidence: ${data.score.toFixed(2)})` : ''), 'bot');
+      } catch (err) {
+        appendMessage('Error: could not reach server. See console.', 'bot');
+        console.error(err);
+      }
+    }
+
+    sendBtn.onclick = () => {
+      const q = questionEl.value.trim();
+      if (q) askQuestion(q);
+    };
+
+    // Allow Enter to send
+    questionEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        sendBtn.click();
+      }
+    });
+
+    // welcome message
+    appendMessage("Hi — ask me FAQs about the product. Example: 'How do I reset my password?'", 'bot');
+  </script>
+</body>
+</html>

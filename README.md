@@ -1,0 +1,1 @@
+A simple and interactive FAQ Chatbot built with Python, Flask (or Streamlit), and NLP techniques to answer frequently asked questions automatically. This project is designed to help users quickly find answers without needing manual support.
